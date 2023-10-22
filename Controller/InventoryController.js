@@ -47,5 +47,6 @@ exports.createNewInventory = (req, res) => {
 };
 
 // PUT a Specific Inventory
+exports.editSpecificInventory = (req, res) => {};
 
 // DELETE a Specific Inventory

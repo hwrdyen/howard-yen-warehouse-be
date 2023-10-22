@@ -11,18 +11,20 @@ function readWarehouseData() {
   return parse_allWarehouseData;
 }
 
+// GET a list of all Warehouses
 exports.getAllWarehouses = (req, res) => {
   let warehouseData = readWarehouseData();
   res.json(warehouseData);
 };
 
+// GET a specific Warehouse
 exports.getSpecificWarehouse = (req, res) => {
   let warehouseID = req.params.warehouseID;
   let warehouseData = readWarehouseData();
   const specificWarehouse = warehouseData.filter(
     (warehouse) => warehouse.id === warehouseID
   );
-  if (specificWarehouse) {
+  if (specificWarehouse.length != 0) {
     res.json(specificWarehouse);
   } else {
     res
@@ -31,6 +33,7 @@ exports.getSpecificWarehouse = (req, res) => {
   }
 };
 
+// POST a new Warehouse
 exports.createNewWarehouse = (req, res) => {
   let newWarehouseDetail = req.body;
   let warehouseData = readWarehouseData();
@@ -44,3 +47,7 @@ exports.createNewWarehouse = (req, res) => {
     .status(201)
     .send(`Created Warehouse ${newWarehouseDetail?.id} Successfully!`);
 };
+
+// PUT a Specific Warehouse
+
+// DELETE a Specific Warehouse

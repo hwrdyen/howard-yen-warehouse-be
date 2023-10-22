@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const warehouseController = require("../Controller/WarehouseController");
 
-// Get a list of All Warehouses
+// ROUTER PATH
 router
   .route("/all")
   .get(warehouseController.getAllWarehouses)

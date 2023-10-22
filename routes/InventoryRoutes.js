@@ -4,7 +4,11 @@ const fs = require("fs");
 const path = require("path");
 const inventoryController = require("../Controller/InventoryController");
 
-// Get a list of All Inventories
-router.route("/all").get(inventoryController.getAllInventories);
+// ROUTER PATH
+router
+  .route("/all")
+  .get(inventoryController.getAllInventories)
+  .post(inventoryController.createNewInventory);
+router.route("/:inventoryID").get(inventoryController.getSpecificInventory);
 
 module.exports = router;

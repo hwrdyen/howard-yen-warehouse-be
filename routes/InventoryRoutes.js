@@ -9,6 +9,10 @@ router
   .route("/all")
   .get(inventoryController.getAllInventories)
   .post(inventoryController.createNewInventory);
-router.route("/:inventoryID").get(inventoryController.getSpecificInventory);
+router
+  .route("/:inventoryID")
+  .get(inventoryController.getSpecificInventory)
+  .put(inventoryController.editSpecificInventory)
+  .delete(inventoryController.deleteSpecificInventory);
 
 module.exports = router;

@@ -11,6 +11,14 @@ function readWarehouseData() {
   return parse_allWarehouseData;
 }
 
+function readInventoryData() {
+  const allInventoryData = fs.readFileSync(
+    path.resolve(__dirname, "../data/inventories.json")
+  );
+  const parse_allInventoryData = JSON.parse(allInventoryData);
+  return parse_allInventoryData;
+}
+
 // GET a list of all Warehouses
 exports.getAllWarehouses = (req, res) => {
   let warehouseData = readWarehouseData();
@@ -103,6 +111,7 @@ exports.editSpecificWarehouseName = (req, res) => {
 exports.deleteSpecificWarehouse = (req, res) => {
   const warehouseID = req.params.warehouseID;
   let warehouseData = readWarehouseData();
+  let inventoryData = readInventoryData();
   let specificWarehouseIndex = warehouseData.findIndex(
     (warehouse) => warehouse.id === warehouseID
   );
@@ -115,5 +124,26 @@ exports.deleteSpecificWarehouse = (req, res) => {
     path.resolve(__dirname, "../data/warehouses.json"),
     stringify_warehouseData
   );
+
+  // remove inventory item belongs to the warehouse
+  let deletedInventoryInfo = inventoryData.filter(
+    (inventory) => inventory?.warehouseID === warehouseID
+  );
+
+  for (deletedinfo of deletedInventoryInfo) {
+    let specificInventoryIndex = inventoryData.findIndex(
+      (inventory) => inventory === deletedinfo
+    );
+
+    if (specificInventoryIndex != null) {
+      inventoryData.splice(specificInventoryIndex, 1);
+    }
+  }
+  let stringify_inventoryData = JSON.stringify(inventoryData);
+  fs.writeFileSync(
+    path.resolve(__dirname, "../data/inventories.json"),
+    stringify_inventoryData
+  );
+
   res.status(201).send(`Deleted Warehouse ${warehouseID} Successfully!`);
 };
